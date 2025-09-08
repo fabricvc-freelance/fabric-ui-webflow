@@ -560,7 +560,7 @@ function n2(t2) {
     return e3.constructor.createProperty(o3, t3), r2 ? Object.getOwnPropertyDescriptor(e3, o3) : void 0;
   })(t2, e2, o2);
 }
-const cssStylesheet = ".storybook-button{display:inline-block;cursor:pointer;border:0;border-radius:3em;font-weight:700;line-height:1;font-family:Nunito Sans,Helvetica Neue,Helvetica,Arial,sans-serif}";
+const cssStylesheet = ".background-3d-wrapper{position:absolute;left:0;top:0;width:100%;height:100%}.background-3d-wrapper>canvas{width:100%!important;height:100%!important}";
 /**
  * @license
  * Copyright 2010-2025 Three.js Authors
@@ -24272,8 +24272,8 @@ let ParametricLines = class extends i {
     this.numSides = 1;
     this.lines = [];
     this.group = new Group();
-    this.width = window.innerWidth;
-    this.height = window.innerHeight;
+    this.width = window.innerWidth * 2;
+    this.height = window.innerHeight * 2;
     this.renderer = new WebGLRenderer({ antialias: true });
     this.camera = new PerspectiveCamera(70, this.width / this.height, 0.01, 10);
     this.scene = new Scene();
@@ -24291,8 +24291,8 @@ let ParametricLines = class extends i {
     __privateAdd(this, _groupY, 0.7);
     __privateAdd(this, _groupZ, -2);
     this.handleResize = () => {
-      this.width = window.innerWidth;
-      this.height = window.innerHeight;
+      this.width = window.innerWidth * 2;
+      this.height = window.innerHeight * 2;
       this.camera.aspect = this.width / this.height;
       this.camera.updateProjectionMatrix();
       this.renderer.setSize(this.width, this.height);
@@ -24396,7 +24396,6 @@ let ParametricLines = class extends i {
     wrapper.appendChild(this.renderer.domElement);
     window.addEventListener("resize", this.handleResize);
     const lineData = createLineGeometry(this.numSides, this.subdivisions);
-    console.log(">>>>", this.color);
     const sharedUniforms = {
       time: { value: 0 },
       rSample2Blend: { value: this.rSample2Blend },
@@ -24435,7 +24434,7 @@ let ParametricLines = class extends i {
     this.camera.position.z = 0;
   }
   render() {
-    return x`<div id="canvas-wrapper"></div>`;
+    return x`<div id="canvas-wrapper" class="background-3d-wrapper"></div>`;
   }
 };
 _subdivisions = /* @__PURE__ */ new WeakMap();
