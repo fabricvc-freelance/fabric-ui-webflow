@@ -24234,7 +24234,7 @@ var __accessCheck = (obj, member, msg) => member.has(obj) || __typeError("Cannot
 var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read from private field"), getter ? getter.call(obj) : member.get(obj));
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), member.set(obj, value), value);
-var _subdivisions, _totalMeshes, _rSample2Blend, _rSample3Blend, _rSample4Blend, _rSample5Blend, _thetaMultiplier, _phiPIMult, _color, _opacity, _groupX, _groupY, _groupZ;
+var _subdivisions, _totalMeshes, _rSample2Blend, _rSample3Blend, _rSample4Blend, _rSample5Blend, _thetaMultiplier, _phiPIMult, _color, _opacity, _groupX, _groupY, _groupZ, _fps;
 function createLineGeometry(numSides = 1, subdivisions = 50, length = 1, radius = 0.05) {
   const baseGeometry = new CylinderGeometry(
     radius,
@@ -24269,11 +24269,14 @@ function curvedLine(material, vertices) {
 let ParametricLines = class extends i {
   constructor() {
     super(...arguments);
+    this.pauseAnimation = false;
+    this.lastTime = Date.now();
+    this.expectedDiff = 50;
     this.numSides = 1;
     this.lines = [];
     this.group = new Group();
-    this.width = window.innerWidth * 2;
-    this.height = window.innerHeight * 2;
+    this.width = window.innerWidth * window.devicePixelRatio;
+    this.height = window.innerHeight * window.devicePixelRatio;
     this.renderer = new WebGLRenderer({ antialias: true });
     this.camera = new PerspectiveCamera(70, this.width / this.height, 0.01, 10);
     this.scene = new Scene();
@@ -24290,14 +24293,24 @@ let ParametricLines = class extends i {
     __privateAdd(this, _groupX, 1);
     __privateAdd(this, _groupY, 0.7);
     __privateAdd(this, _groupZ, -2);
+    __privateAdd(this, _fps, 20);
     this.handleResize = () => {
-      this.width = window.innerWidth * 2;
-      this.height = window.innerHeight * 2;
+      this.width = window.innerWidth * window.devicePixelRatio;
+      this.height = window.innerHeight * window.devicePixelRatio;
       this.camera.aspect = this.width / this.height;
       this.camera.updateProjectionMatrix();
       this.renderer.setSize(this.width, this.height);
     };
     this.handleAnimate = (time) => {
+      if (this.pauseAnimation) {
+        return;
+      }
+      const currentTime = Date.now();
+      const diffTime = currentTime - this.lastTime;
+      if (diffTime < this.expectedDiff) {
+        return;
+      }
+      this.lastTime = currentTime;
       for (const line of this.lines) {
         line.material.uniforms.time.value = time / 1e3;
       }
@@ -24382,6 +24395,12 @@ let ParametricLines = class extends i {
   set groupZ(_2) {
     __privateSet(this, _groupZ, _2);
   }
+  get fps() {
+    return __privateGet(this, _fps);
+  }
+  set fps(_2) {
+    __privateSet(this, _fps, _2);
+  }
   firstUpdated() {
     if (this.renderRoot instanceof ShadowRoot === false) {
       return;
@@ -24390,6 +24409,17 @@ let ParametricLines = class extends i {
     if (!wrapper) {
       return;
     }
+    this.expectedDiff = 1e3 / this.fps;
+    const observer = new IntersectionObserver(
+      (args) => {
+        const [wrapperObservationEntry] = args;
+        this.pauseAnimation = !wrapperObservationEntry.isIntersecting;
+      },
+      {
+        threshold: 0.5
+      }
+    );
+    observer.observe(wrapper);
     this.scene.background = new Color(16777215);
     this.renderer.setSize(this.width, this.height);
     this.renderer.setAnimationLoop(this.handleAnimate);
@@ -24450,6 +24480,7 @@ _opacity = /* @__PURE__ */ new WeakMap();
 _groupX = /* @__PURE__ */ new WeakMap();
 _groupY = /* @__PURE__ */ new WeakMap();
 _groupZ = /* @__PURE__ */ new WeakMap();
+_fps = /* @__PURE__ */ new WeakMap();
 ParametricLines.styles = i$3`
     ${r$3(cssStylesheet)}
   `;
@@ -24492,6 +24523,9 @@ __decorateClass([
 __decorateClass([
   n2({ type: Number })
 ], ParametricLines.prototype, "groupZ", 1);
+__decorateClass([
+  n2({ type: Number })
+], ParametricLines.prototype, "fps", 1);
 ParametricLines = __decorateClass([
   t("fabric-ui-parametric-lines")
 ], ParametricLines);
