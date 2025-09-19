@@ -50,6 +50,6 @@ function ja(){let t=null,e=!1,n=null,i=null;function r(e,a){n(e,a),i=t.requestAn
         </div>
       </div>
     `}};rc.styles=s`
-    ${a(".fbvc-navigation-sticky{position:relative}.fbvc-navigation-sticky__content{border-bottom:solid 1px rgba(159,161,163,.225)}.fbvc-navigation-sticky__content--stuck{position:fixed;top:-100%;left:0;display:block;width:100%;transition:top .6s cubic-bezier(.6,0,.4,1);-webkit-backdrop-filter:blur(1rem);backdrop-filter:blur(1rem);background-color:#f5f7fa99}.fbvc-navigation-sticky__content--stuck-visible{top:0}")}
+    ${a(".fbvc-navigation-sticky{position:relative}.fbvc-navigation-sticky__content{border-bottom:solid 1px rgba(159,161,163,.225)}.fbvc-navigation-sticky__content--stuck{position:fixed;top:-100%;left:0;display:block;width:100%;transition:top .6s cubic-bezier(.6,0,.4,1);-webkit-backdrop-filter:blur(1rem);backdrop-filter:blur(1rem);background-color:#f5f7fa99;z-index:99999}.fbvc-navigation-sticky__content--stuck-visible{top:0}")}
   `,rc=((t,e,n,i)=>{for(var r,a=i>1?void 0:i?ic(e,n):e,s=t.length-1;s>=0;s--)(r=t[s])&&(a=r(a)||a);return a})([lt("fabric-ui-navigation-sticky")],rc)});
 //# sourceMappingURL=fabric-ui-web-components.vanilla.umd.cjs.map
