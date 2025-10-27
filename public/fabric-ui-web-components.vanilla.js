@@ -57,7 +57,7 @@ function ja(){let t=null,e=!1,n=null,i=null;function r(e,a){n(e,a),i=t.requestAn
               type="checkbox"
               value=${t}
               name="checkbox-${t}"
-              @change=${this.handleTopicChange}
+              @click=${this.handleTopicChange}
             />
             <span> ${t} </span>
           </label>
