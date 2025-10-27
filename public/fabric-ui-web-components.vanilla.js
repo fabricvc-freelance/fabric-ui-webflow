@@ -51,21 +51,22 @@ function ja(){let t=null,e=!1,n=null,i=null;function r(e,a){n(e,a),i=t.requestAn
       </div>
     `}};rc.styles=s`
     ${a(".fbvc-navigation-sticky{position:relative}.fbvc-navigation-sticky__content{border-bottom:solid 1px rgba(159,161,163,.225)}.fbvc-navigation-sticky__content--stuck{position:fixed;top:-100%;left:0;display:block;width:100%;transition:top .6s cubic-bezier(.6,0,.4,1);-webkit-backdrop-filter:blur(1rem);backdrop-filter:blur(1rem);background-color:#f5f7fa99;z-index:99999}.fbvc-navigation-sticky__content--stuck-visible{top:0}")}
-  `,rc=((t,e,n,i)=>{for(var r,a=i>1?void 0:i?ic(e,n):e,s=t.length-1;s>=0;s--)(r=t[s])&&(a=r(a)||a);return a})([lt("fabric-ui-navigation-sticky")],rc);var ac=Object.getOwnPropertyDescriptor;let sc=class extends st{constructor(){super(...arguments),this.availableTopics=new Set,this.selectedTopics=new Set,this.filtersVisible=!1}firstUpdated(){this.scanTopics();const t=this.shadowRoot?.querySelector("slot");t&&t.addEventListener("slotchange",()=>{this.scanTopics()})}scanTopics(){const t=this.querySelectorAll(".writing-item"),e=new Set;t.forEach(t=>{t.querySelectorAll(".chip").forEach(t=>{const n=t.textContent?.trim();n&&e.add(n)})}),this.availableTopics=e,this.requestUpdate()}handleTopicChange(t){const e=t.target,n=e.value;console.log(">>>> target",e.value),e.checked?this.selectedTopics.add(n):this.selectedTopics.delete(n),this.filterArticles(),this.requestUpdate()}toggleFilters(){this.filtersVisible=!this.filtersVisible,this.requestUpdate()}filterArticles(){this.querySelectorAll(".writing-item").forEach(t=>{const e=t.querySelectorAll(".chip"),n=new Set;e.forEach(t=>{const e=t.textContent?.trim();e&&n.add(e)});const i=0===this.selectedTopics.size||Array.from(this.selectedTopics).some(t=>n.has(t));t.style.display=i?"":"none"})}render(){console.log(">>>> selectedTopics",this.selectedTopics);const t=Array.from(this.availableTopics).sort().map(t=>V`
-        <label class="fbvc-filter-checkbox">
-          <input
-            type="checkbox"
-            value=${t}
-            name="checkbox-${t}"
-            ?checked=${this.selectedTopics.has(t)}
-            @change=${this.handleTopicChange}
-          />
-          <span>
-            ${t}
-          </span>
-        </label>
-      `);return V`
-      <div class="fbvc-filter-writings" data-filter-active="${this.filtersVisible}">
+  `,rc=((t,e,n,i)=>{for(var r,a=i>1?void 0:i?ic(e,n):e,s=t.length-1;s>=0;s--)(r=t[s])&&(a=r(a)||a);return a})([lt("fabric-ui-navigation-sticky")],rc);var ac=Object.getOwnPropertyDescriptor;let sc=class extends st{constructor(){super(...arguments),this.availableTopics=new Set,this.selectedTopics=new Set,this.filtersVisible=!1}firstUpdated(){this.scanTopics();const t=this.shadowRoot?.querySelector("slot");t&&t.addEventListener("slotchange",()=>{this.scanTopics()})}scanTopics(){const t=this.querySelectorAll(".writing-item"),e=new Set;t.forEach(t=>{t.querySelectorAll(".chip").forEach(t=>{const n=t.textContent?.trim();n&&e.add(n)})}),this.availableTopics=e,this.requestUpdate()}handleTopicChange(t){const e=t.target,n=e.value;console.log(">>>> target",e.value),e.checked?this.selectedTopics.add(n):this.selectedTopics.delete(n),this.filterArticles(),this.requestUpdate()}toggleFilters(){this.filtersVisible=!this.filtersVisible,this.requestUpdate()}filterArticles(){this.querySelectorAll(".writing-item").forEach(t=>{const e=t.querySelectorAll(".chip"),n=new Set;e.forEach(t=>{const e=t.textContent?.trim();e&&n.add(e)});const i=0===this.selectedTopics.size||Array.from(this.selectedTopics).some(t=>n.has(t));t.style.display=i?"":"none",t.style.opacity=i?"1":"0"})}render(){console.log(">>>> selectedTopics",this.selectedTopics);const t=this.selectedTopics.size>0,e=Array.from(this.availableTopics).sort().map(t=>V`
+          <label class="fbvc-filter-checkbox">
+            <input
+              type="checkbox"
+              value=${t}
+              name="checkbox-${t}"
+              @change=${this.handleTopicChange}
+            />
+            <span> ${t} </span>
+          </label>
+        `);return V`
+      <div
+        class="fbvc-filter-writings"
+        data-filter-active="${this.filtersVisible}"
+        data-filter-has-selected="${t}"
+      >
         <button class="fbvc-filter-toggle-btn" @click=${this.toggleFilters}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -84,7 +85,7 @@ function ja(){let t=null,e=!1,n=null,i=null;function r(e,a){n(e,a),i=t.requestAn
         <div
           class="fbvc-filter-container ${this.filtersVisible?"visible":"hidden"}"
         >
-          ${t}
+          ${e}
         </div>
         <slot></slot>
       </div>
